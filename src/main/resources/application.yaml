@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: banking
+  cache:
+    type: redis
+    cache-names: redis-cache
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+      password: ${REDIS_PASSWORD:redis}
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:54322/banking}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      connection-timeout: 20000
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: none
+    open-in-view: false
+  liquibase:
+    change-log: db/migration/changelog-master.yaml
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    access: 1
+    refresh: 30
+app:
+  description:
+    Banking app

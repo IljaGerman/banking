@@ -1,0 +1,50 @@
+version: '3.8'
+
+volumes:
+  banking-db-data:
+    driver: local
+  cache:
+    driver: local
+
+networks:
+  banking-network:
+    driver: bridge
+
+services:
+  postgres-db:
+    image: postgres:17.5
+    ports:
+      - '54322:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - banking-db-data:/var/lib/postgresql/data
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    networks:
+      - banking-network
+
+  redis:
+    image: redis:8.0.0
+    restart: always
+    container_name: redis
+    networks:
+      - banking-network
+    ports:
+      - '6379:6379'
+    command: redis-server --bind 0.0.0.0 --requirepass redis
+    volumes:
+      - cache:/data
+
+  banking:
+    build:
+      context: .
+    container_name: banking
+    networks:
+      - banking-network
+    depends_on:
+      - postgres-db
+    env_file:
+      - .env.example
+    ports:
+      - '8080:8080'
