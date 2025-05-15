@@ -49,7 +49,7 @@ The system utilizes:
 - To remove the containers:
 
   docker-compose down
-- 
+
 ### User Authentication
 
 To authenticate in the system, you must provide **either an email or a phone number**. The credentials required for authentication are:
@@ -59,9 +59,6 @@ To authenticate in the system, you must provide **either an email or a phone num
 
 - **Phone**  
   Alternative login method. Example: `+79161234567`
-
-- **Password**  
-  Stored in encrypted form (bcrypt). Example of a hashed password: `$2y$10$RSVpMye3X6qeabJjmk4nxud7XPyz/zq/ay6ieAyHq4ShAOKqZvguS`
 
 #### Example authentication request:
 ```json
